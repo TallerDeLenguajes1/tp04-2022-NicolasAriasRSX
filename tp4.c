@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<time.h>
+#include<conio.h>
 #include<string.h>
 
 typedef struct Tarea{
@@ -22,10 +23,15 @@ int main()
     tarea **tareasRealizadas= (tarea **) malloc(sizeof(tarea) * cantTareas);
     cargar_tareas(tareasPendientes, cantTareas);
     mostrar_tareas(tareasPendientes, cantTareas);
+    getch();
+    system("cls");
     control_tareas(tareasRealizadas,tareasPendientes,cantTareas);
-    mostrar_tareas(tareasRealizadas, cantTareas);
-    printf("Pendientes");
+    getch();
+    system("cls");
+    printf("\nTareas pendientes\n");
     mostrar_tareas(tareasPendientes, cantTareas);
+    printf("\nTareas realizadas\n");
+    mostrar_tareas(tareasRealizadas, cantTareas);
     
     scanf(" %d");
     // getchar();
@@ -52,7 +58,7 @@ void mostrar_tareas(tarea **t, int cantidadTareas)
     printf("Lista de tareas:\n");
     for (int i = 0; i < cantidadTareas; i++)
     {
-        if (t[i] != NULL)
+        if (t[i])
         {
             printf("ID de la tarea: %d\n", t[i]->tareaID);
             printf("Duracion de la tarea: %d min\n", t[i]->duracion);
@@ -77,6 +83,8 @@ void control_tareas(tarea **tareaRealizada, tarea **tareaPendiente, int cantidad
             tareaRealizada[i]= (tarea *) malloc(sizeof(tarea));
             tareaRealizada[i]= tareaPendiente[i];
             tareaPendiente[i]= NULL;
+        }else{
+            tareaRealizada[i]= NULL;
         }
     }
     printf("\nSe controlaron todas las tareas.\n");
