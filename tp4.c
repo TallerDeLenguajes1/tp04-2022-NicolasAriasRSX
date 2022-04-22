@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
+// #include<cstdlib>
 #include<time.h>
 #include<conio.h>
 #include<string.h>
@@ -12,8 +13,8 @@ typedef struct Tarea{
 //Declaracion de funciones
 void cargar_tareas(tarea **t, int cantidadTareas);
 void mostrar_tareas(tarea **t, int cantidadTareas);
-void control_tareas(tarea **tareaRealizada, tarea **tareaPendiente, int cantidadTareas);
-void buscar_tarea(tarea **tareaRealizada, tarea **tareaPendiente, int cantidadTareas);
+void buscar_tarea(tarea **tareas, int cantidadTareas, int idAux);
+void control_tareas(tarea **tareaRealizada, tarea **tareaPendientei, int cantidadTareas);
 int main()
 {
     srand(time(NULL));
@@ -23,26 +24,34 @@ int main()
     tarea **tareasPendientes= (tarea **) malloc(sizeof(tarea) * cantTareas);
     tarea **tareasRealizadas= (tarea **) malloc(sizeof(tarea) * cantTareas);
     cargar_tareas(tareasPendientes, cantTareas);
-    system("cls");
+    // system("cls");
     mostrar_tareas(tareasPendientes, cantTareas);
-    getch();
-    system("cls");
+    // getch();
+    // system("cls");
     control_tareas(tareasRealizadas,tareasPendientes,cantTareas);
-    getch();
-    system("cls");
+    // getch();
+    // system("cls");
     printf("\n----------------------\nTareas realizadas\n----------------------\n");
     mostrar_tareas(tareasRealizadas, cantTareas);
     printf("\n----------------------\nTareas pendientes\n----------------------\n");
     mostrar_tareas(tareasPendientes, cantTareas);
-    getch();
-    system("cls");
+    // getch();
+    // system("cls");
     printf("\n----------------------\nBuscar tarea\n----------------------\n");
-    buscar_tarea(tareasRealizadas,tareasPendientes,cantTareas);
+    int idAux;
+    printf("Ingrese el ID de la tarea buscada (no mayor que %d)", cantTareas);
+    scanf(" %d", &idAux);
+
+    buscar_tarea(tareasRealizadas,cantTareas,idAux);
+    
+    buscar_tarea(tareasPendientes,cantTareas,idAux);
 
     // scanf(" %d");
     getch();
     return 0;
 }
+//------Definicion de Funciones-------//
+//______________________________________________//
 void cargar_tareas(tarea **t, int cantidadTareas)
 {
     char buff[100];
@@ -59,6 +68,7 @@ void cargar_tareas(tarea **t, int cantidadTareas)
         strcpy(t[i]->descripcion, buff);
     }   
 }
+//________________________________________________//
 void mostrar_tareas(tarea **t, int cantidadTareas)
 {
     printf("Lista de tareas:\n");
@@ -73,6 +83,7 @@ void mostrar_tareas(tarea **t, int cantidadTareas)
     }
     
 }
+//____________________________________________________________________________________//
 void control_tareas(tarea **tareaRealizada, tarea **tareaPendiente, int cantidadTareas)
 {
     char buff;
@@ -95,25 +106,16 @@ void control_tareas(tarea **tareaRealizada, tarea **tareaPendiente, int cantidad
     }
     printf("\nSe controlaron todas las tareas.\n");   
 }
-void buscar_tarea(tarea **tareaRealizada, tarea **tareaPendiente, int cantidadTareas)
-{
-    int idAux;
-    printf("Ingrese el ID de la tarea buscada (no mayor que %d)", cantidadTareas);
-    scanf("%d", &idAux);
+//__________________________________________________________________________________//
+void buscar_tarea(tarea **tareas, int cantidadTareas, int idAux)
+{    
     for (int i = 0; i < cantidadTareas; i++)
     {
-        if (tareaPendiente[i]->tareaID == idAux && tareaPendiente[i])
+        if (tareas[i] != NULL && tareas[i]->tareaID == idAux)
         {
-            printf("La tarea buscada con ID = %d esta pendientes\n", tareaPendiente[i]->tareaID);
-            printf("Tarea: %s\n", tareaPendiente[i]->descripcion);
-            printf("Duracion: %d\n", tareaPendiente[i]->duracion);
-        }else{
-            if (tareaRealizada[i]->tareaID == idAux && tareaRealizada[i]);
-            {
-                printf("La tarea buscada con ID = %d esta realizada\n", tareaRealizada[i]->tareaID);
-                printf("Tarea: %s\n", tareaRealizada[i]->descripcion);
-                printf("Duracion: %d\n", tareaRealizada[i]->duracion);
-            }
+            printf("La tarea buscada con ID = %d esta pendientes\n", tareas[i]->tareaID);
+            printf("Tarea: %s\n", tareas[i]->descripcion);
+            printf("Duracion: %d\n", tareas[i]->duracion);
         }
     }
 }
